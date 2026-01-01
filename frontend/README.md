@@ -1,16 +1,30 @@
-# React + Vite
+# LinkVault
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LinkVault is a full-stack bookmark manager that lets users save links with tags and notes, as well as filtering bookmarks by tags.
 
-Currently, two official plugins are available:
+## Why this project
+LinkVault expands upon browser bookmarks with the following features:
+- user-defined, color-coded tags
+- notes/comments for context
+- fast filtering by multiple tags
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
+### Bookmarks
+- Create bookmarks with URL, title, notes, and selected tags
+- Edit bookmark features
+- Delete bookmarks
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Tags
+- Create tags with custom colors
+- Assign multiple tags to each bookmark
+- Filter bookmarks by selecting multiple tags
+- Delete tags (removes the tag from all bookmarks)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+- **Backend:** Django + SQLite
+- **Frontend:** React (Vite) + CSS
+- **API:** JSON endpoints under `/api`
