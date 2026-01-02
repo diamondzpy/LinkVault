@@ -183,7 +183,16 @@
 }
 
 .tagChipSelected{
-  background: #f1f5f9;
+  background: #eef2ff;                 /* stronger than light grey */
+  border-color: #0f172a !important;     /* obvious outline */
+  box-shadow: 0 0 0 3px rgba(15,23,42,0.12);
+  transform: translateY(-1px);
+}
+
+.tagCheck{
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1;
 }
 
 .tagDot{

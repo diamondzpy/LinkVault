@@ -12,6 +12,7 @@ function TagChip({ tag, selected, onClick, onDelete }) {
         style={{ borderColor: tag.color }}
       >
         <span className="tagDot" style={{ background: tag.color }} />
+        {selected && <span className="tagCheck">✓</span>}
         {tag.name}
       </button>
 
