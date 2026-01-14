@@ -35,6 +35,8 @@ npm run dev
 Frontend will be available at
 - http://localhost:5173
 
+---
+
 ## Why this project
 LinkVault expands upon browser bookmarks with the following features:
 - user-defined, color-coded tags
