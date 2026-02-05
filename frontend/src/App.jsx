@@ -40,22 +40,18 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Filter: multi-tag selection
   const [filterTagIds, setFilterTagIds] = useState([]);
   const [manageTags, setManageTags] = useState(false);
 
-  // Create bookmark form
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useState("");
   const [createTagIds, setCreateTagIds] = useState([]);
 
-  // Create tag form
   const [showNewTag, setShowNewTag] = useState(false);
   const [newTagName, setNewTagName] = useState("");
   const [newTagColor, setNewTagColor] = useState("#60a5fa");
 
-  // Edit bookmark state
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editNotes, setEditNotes] = useState("");
@@ -108,7 +104,6 @@ export default function App() {
 
   useEffect(() => {
     fetchBookmarks(filterTagIds);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterTagIds]);
 
   async function createTag(e) {
@@ -139,7 +134,6 @@ export default function App() {
 
       await fetchTags();
 
-      // auto-select newly created tag on bookmark form
       setCreateTagIds((prev) => (prev.includes(created.id) ? prev : [...prev, created.id]));
 
       setNewTagName("");
@@ -158,13 +152,11 @@ export default function App() {
       const text = await res.text();
       if (!res.ok) throw new Error(`Delete tag failed (${res.status}): ${text}`);
 
-      // remove from any selected state so UI doesn’t keep “ghost selections”
       setCreateTagIds((prev) => prev.filter((x) => x !== id));
       setEditTagIds((prev) => prev.filter((x) => x !== id));
 
       setFilterTagIds((prev) => {
         const next = prev.filter((x) => x !== id);
-        // immediately refresh list for the new filter
         fetchBookmarks(next);
         return next;
       });
@@ -212,6 +204,21 @@ export default function App() {
     }
   }
 
+  async function deleteBookmark(id) {
+    if (!confirm("Delete this bookmark?")) return;
+    setError("");
+
+    try {
+      const res = await fetch(`/api/bookmarks/${id}/`, { method: "DELETE" });
+      const text = await res.text();
+      if (!res.ok) throw new Error(`Delete failed (${res.status}): ${text}`);
+
+      await fetchBookmarks(filterTagIds);
+    } catch (e) {
+      setError(String(e.message || e));
+    }
+  }
+
   function startEdit(b) {
     setEditingId(b.id);
     setEditTitle(b.title);
@@ -252,21 +259,6 @@ export default function App() {
     }
   }
 
-  async function deleteBookmark(id) {
-    if (!confirm("Delete this bookmark?")) return;
-    setError("");
-
-    try {
-      const res = await fetch(`/api/bookmarks/${id}/`, { method: "DELETE" });
-      const text = await res.text();
-      if (!res.ok) throw new Error(`Delete failed (${res.status}): ${text}`);
-
-      await fetchBookmarks(filterTagIds);
-    } catch (e) {
-      setError(String(e.message || e));
-    }
-  }
-
   return (
     <div className="container">
       <header className="header">
@@ -279,7 +271,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Add bookmark */}
       <div className="card" style={{ marginTop: 16 }}>
         <h2 style={{ marginTop: 0 }}>Add a bookmark</h2>
 
@@ -360,7 +351,6 @@ export default function App() {
         </form>
       </div>
 
-      {/* Filter (multi-select) + Manage tags */}
       <div className="card" style={{ marginTop: 16 }}>
         <div className="row-between">
           <h2 style={{ margin: 0 }}>Filter</h2>
@@ -388,7 +378,6 @@ export default function App() {
           {manageTags ? " (Manage mode: click × to delete tags)" : ""}
         </div>
 
-        {/* Add tagGridScrollable class if you add the CSS for it */}
         <div className="tagGrid tagGridScrollable" style={{ marginTop: 10 }}>
           {tags.map((t) => (
             <TagChip
@@ -403,7 +392,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* Bookmarks list */}
       <div className="card" style={{ marginTop: 16 }}>
         <div className="row-between">
           <h2 style={{ margin: 0 }}>Bookmarks ({bookmarks.length})</h2>
