@@ -33,7 +33,6 @@ def get_or_create_tags(tag_names):
             raise ValueError(f"tag too long: {n}")
         tag, _ = Tag.objects.get_or_create(name=n)
         tags.append(tag)
-    # remove duplicates while keeping order
     seen = set()
     unique = []
     for t in tags:
@@ -47,7 +46,6 @@ def bookmark_list_create(request):
     if request.method == "GET":
         qs = Bookmark.objects.all().prefetch_related("tags").order_by("-created_at")
 
-        # Multi-tag filter: ?tag_ids=1,2,3  (AND semantics)
         tag_ids_raw = request.GET.get("tag_ids", "").strip()
         if tag_ids_raw:
             try:

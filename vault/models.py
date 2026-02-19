@@ -3,7 +3,7 @@ from django.db import models
 
 class Tag(models.Model):
     name = models.CharField(max_length=32, unique=True)
-    color = models.CharField(max_length=7, default="#94a3b8")  # hex like #RRGGBB
+    color = models.CharField(max_length=7, default="#94a3b8")
 
     def __str__(self) -> str:
         return self.name

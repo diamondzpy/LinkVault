@@ -288,7 +288,6 @@ export default function App() {
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          {/* Notes on left column */}
           <textarea
             className="textarea"
             rows={7}
@@ -297,7 +296,6 @@ export default function App() {
             onChange={(e) => setNotes(e.target.value)}
           />
 
-          {/* Tags on right column */}
           <div>
             <div className="row-between" style={{ marginBottom: 8 }}>
               <div className="small">Select tags:</div>
