@@ -1,6 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
+const TAG_COLOR_PRESETS = [
+  "#0ea5e9",
+  "#06b6d4",
+  "#10b981",
+  "#84cc16",
+  "#f59e0b",
+  "#f97316",
+  "#ef4444",
+  "#ec4899",
+  "#8b5cf6",
+  "#6366f1",
+];
+
 function TagChip({ tag, selected, onClick, onDelete }) {
   return (
     <div className="tagChipWrap">
@@ -328,13 +341,32 @@ export default function App() {
                   value={newTagName}
                   onChange={(e) => setNewTagName(e.target.value)}
                 />
-                <input
-                  className="colorInput"
-                  type="color"
-                  value={newTagColor}
-                  onChange={(e) => setNewTagColor(e.target.value)}
-                  title="Pick a tag color"
-                />
+                <div className="colorPickerPanel">
+                  <label className="colorPreviewBtn" title="Pick a custom tag color">
+                    <span className="colorPreviewDot" style={{ background: newTagColor }} />
+                    <span className="colorPreviewText">{newTagColor.toUpperCase()}</span>
+                    <input
+                      className="colorInputNative"
+                      type="color"
+                      value={newTagColor}
+                      onChange={(e) => setNewTagColor(e.target.value)}
+                    />
+                  </label>
+
+                  <div className="colorSwatchGrid" aria-label="Color presets">
+                    {TAG_COLOR_PRESETS.map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        className={`colorSwatch ${newTagColor === c ? "colorSwatchActive" : ""}`}
+                        style={{ background: c }}
+                        onClick={() => setNewTagColor(c)}
+                        title={`Use ${c}`}
+                        aria-label={`Use ${c}`}
+                      />
+                    ))}
+                  </div>
+                </div>
                 <button className="button" type="button" onClick={createTag}>
                   Create
                 </button>
