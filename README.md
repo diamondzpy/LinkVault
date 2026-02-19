@@ -2,7 +2,37 @@
 
 LinkVault is a full-stack bookmark manager that lets users save links with tags and notes, as well as filtering bookmarks by tags.
 
-## Get Started (Run locally)
+---
+
+## Features
+### Bookmarks
+- Create bookmarks with URL, title, notes, and selected tags
+- Edit bookmarks
+- Delete bookmarks
+
+### Tags
+- Create tags with custom colors
+- Assign multiple tags to each bookmark
+- Filter bookmarks by selecting multiple tags
+- Delete tags (removes the tag from all bookmarks)
+
+## Live Demo
+
+The live project demo is available at https://linkvault-eoj7.onrender.com/
+
+### Webpage
+![Webpage demo](<Demo_ss/Webpage demo.png>)
+
+### Add a bookmark
+![Add a bookmark](<Demo_ss/Add a bookmark.png>)
+
+### Edit a bookmark
+![Edit a bookmark](<Demo_ss/Edit a bookmark.png>)
+
+### Filter by tags
+![Filtering by tags](<Demo_ss/Filtering by tags.png>)
+
+## Run locally
 
 ### Prerequisites
 - Python 3.10+ (Tested on Python 3.14)
@@ -42,20 +72,6 @@ LinkVault expands upon browser bookmarks with the following features:
 - user-defined, color-coded tags
 - notes/comments for context
 - fast filtering by multiple tags
-
----
-
-## Features
-### Bookmarks
-- Create bookmarks with URL, title, notes, and selected tags
-- Edit bookmark features
-- Delete bookmarks
-
-### Tags
-- Create tags with custom colors
-- Assign multiple tags to each bookmark
-- Filter bookmarks by selecting multiple tags
-- Delete tags (removes the tag from all bookmarks)
 
 ---
 
