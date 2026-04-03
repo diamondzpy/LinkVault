@@ -16,10 +16,6 @@ LinkVault is a full-stack bookmark manager that lets users save links with tags 
 - Filter bookmarks by selecting multiple tags
 - Delete tags (removes the tag from all bookmarks)
 
-## Live Demo
-
-The live project demo is available at https://linkvault-eoj7.onrender.com/
-
 ### Webpage
 ![Webpage demo](<Demo_ss/Webpage demo.png>)
 
@@ -64,6 +60,14 @@ npm run dev
 
 Frontend will be available at
 - http://localhost:5173
+
+### Optional: use Postgres locally
+If you want PostgreSQL locally, set both vars before running Django:
+
+```bash
+export USE_DATABASE_URL=true
+export DATABASE_URL="postgresql://user:password@localhost:5432/linkvault"
+```
 
 ---
 
