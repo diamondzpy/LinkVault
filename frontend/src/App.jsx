@@ -14,6 +14,13 @@ const TAG_COLOR_PRESETS = [
   "#6366f1",
 ];
 
+function normalizeExternalUrl(rawUrl) {
+  const value = (rawUrl || "").trim();
+  if (!value) return "";
+  if (/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(value) || value.startsWith("//")) return value;
+  return `https://${value}`;
+}
+
 function TagChip({ tag, selected, onClick, onDelete }) {
   return (
     <div className="tagChipWrap">
@@ -472,7 +479,12 @@ export default function App() {
                   <div className="row-between">
                     <div>
                       <h3>{b.title}</h3>
-                      <a className="link" href={b.url} target="_blank" rel="noreferrer">
+                      <a
+                        className="link"
+                        href={normalizeExternalUrl(b.url)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         {b.url}
                       </a>
                     </div>

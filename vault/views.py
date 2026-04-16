@@ -1,10 +1,15 @@
 import json
+from urllib.parse import urlparse
 from django.http import JsonResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, Q
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 from .models import Bookmark, Tag
+
+url_validator = URLValidator()
 
 def tag_to_dict(t: Tag):
     return {"id": t.id, "name": t.name, "color": t.color}
@@ -41,6 +46,26 @@ def get_or_create_tags(tag_names):
             unique.append(t)
     return unique
 
+def normalize_url(value: str) -> str:
+    url = (value or "").strip()
+    if not url:
+        return ""
+
+    parsed = urlparse(url)
+    if not parsed.scheme:
+        return f"https://{url}"
+    return url
+
+def clean_bookmark_url(value: str) -> str:
+    url = normalize_url(value)
+    if not url:
+        raise ValueError("url is required")
+    try:
+        url_validator(url)
+    except ValidationError:
+        raise ValueError("Invalid URL")
+    return url
+
 @csrf_exempt
 def bookmark_list_create(request):
     if request.method == "GET":
@@ -74,13 +99,16 @@ def bookmark_list_create(request):
         if data is None:
             return JsonResponse({"error": "Invalid JSON"}, status=400)
 
-        url = (data.get("url") or "").strip()
+        try:
+            url = clean_bookmark_url(data.get("url"))
+        except ValueError as e:
+            return JsonResponse({"error": str(e)}, status=400)
         title = (data.get("title") or "").strip()
         notes = (data.get("notes") or "").strip()
         tag_ids = data.get("tag_ids") or []
 
-        if not url or not title:
-            return JsonResponse({"error": "url and title are required"}, status=400)
+        if not title:
+            return JsonResponse({"error": "title is required"}, status=400)
         if not isinstance(tag_ids, list):
             return JsonResponse({"error": "tag_ids must be a list"}, status=400)
 
@@ -113,7 +141,10 @@ def bookmark_detail(request, bookmark_id: int):
             return JsonResponse({"error": "Invalid JSON"}, status=400)
 
         if "url" in data:
-            b.url = (data.get("url") or "").strip()
+            try:
+                b.url = clean_bookmark_url(data.get("url"))
+            except ValueError as e:
+                return JsonResponse({"error": str(e)}, status=400)
         if "title" in data:
             b.title = (data.get("title") or "").strip()
         if "notes" in data:
